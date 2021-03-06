@@ -6,30 +6,42 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class DrawingPanel extends JPanel implements ActionListener, KeyListener, MouseListener {
+/**
+ * Stellt eine Zeichenfläche in einem DrawFrame-Fenster dar. Beim DrawingPanel über die Methode "add" registrierte
+ * Objekte werden vom Panel gezeichnet. Außerdem kümmert sich das DrawingPanel um das Aufrufen der im framework
+ * realisierten Callbacks wie etwa update und draw.
+ * Diese Modellierung ist nicht sauber, da das DrawingPanel damit Funktionen eines Controllers übernimmt.
+ * Vorgegebene Klasse des Frameworks. Modifikation auf eigene Gefahr.
+ */
+public class DrawingPanel extends JPanel implements KeyListener, MouseListener, MouseMotionListener {
 
     //Attribute
-    private int dt;
-    private long lastLoop, elapsedTime;
+    private int currentDT;
     private boolean requested = false;
 
     // Referenzen
     private ArrayList<DrawableObject> drawableObjects;
     private ArrayList<Integer> currentlyPressedKeys;
+    private DrawTool drawTool;
 
     /**
      * Konstruktor
      */
     public DrawingPanel(){
         super();
-        addMouseListener(this);
         setDoubleBuffered(true);
         drawableObjects = new ArrayList<>();
         currentlyPressedKeys = new ArrayList<Integer>();
-        dt = 35; //Vernünftiger Startwert
-        lastLoop = System.nanoTime();
-        javax.swing.Timer timer = new javax.swing.Timer(dt, this);
-        timer.start();
+        drawTool = new DrawTool();
+    }
+
+    /**
+     * Sorgt dafür, dass alle Objekte gezeichnet und
+     * anschließend gesteuert werden.
+     */
+    public void updateDrawingPanel(int dt){
+        currentDT = dt;
+        repaint();
     }
 
     /**
@@ -42,20 +54,17 @@ public class DrawingPanel extends JPanel implements ActionListener, KeyListener,
             addKeyListener(this);
             setFocusable(true);
             requestFocusInWindow();
-            requested = !requested;
+            requested = ! requested;
         }
-
         super.paintComponent(g);
-        elapsedTime = System.nanoTime() - lastLoop;
-        lastLoop = System.nanoTime();
-        dt = (int) ((elapsedTime / 1000000L)+0.5);
-        if ( dt == 0 ) dt = 1;
         Graphics2D g2d = (Graphics2D) g;
+        drawTool.setGraphics2D(g2d);
+        //Zeichne und update alle Objekte, die bei diesem DrawingPanel registriert sind
         Iterator<DrawableObject> iterator = drawableObjects.iterator();
         while (iterator.hasNext()){
             DrawableObject tempDO = iterator.next();
-            tempDO.draw(this,g2d);
-            tempDO.update((double)dt/1000);
+            tempDO.draw(drawTool);
+            tempDO.update((double)currentDT/1000);
         }
     }
 
@@ -78,25 +87,22 @@ public class DrawingPanel extends JPanel implements ActionListener, KeyListener,
     }
 
     /**
-     * Löscht alle Objekte vom DrawingPanel. Im Anschluss ist das DrawingPanel leer.
+     * Diese Methode entfernt alle zu zeichnenden Objekte.
      */
     public void removeAllObjects(){
-        SwingUtilities.invokeLater(() -> drawableObjects.clear());
+        Iterator<DrawableObject> iterator = drawableObjects.iterator();
+        while (iterator.hasNext()){
+            this.removeObject(iterator.next());
+        }
     }
 
-    /**
-     * Timer-Repaint
-     */
     @Override
-    public void actionPerformed(ActionEvent e) {
-        repaint();
-    }
-
-    /**
-     * Unbenutzt bis auf Weiteres
-     */
     public void keyTyped(KeyEvent e){
-
+        Iterator<DrawableObject> iterator = drawableObjects.iterator();
+        while (iterator.hasNext()){
+            DrawableObject tempDO = iterator.next();
+            tempDO.keyTyped(e);
+        }
     }
 
     /**
@@ -107,9 +113,7 @@ public class DrawingPanel extends JPanel implements ActionListener, KeyListener,
         Iterator<DrawableObject> iterator = drawableObjects.iterator();
         while (iterator.hasNext()){
             DrawableObject tempDO = iterator.next();
-            if (tempDO instanceof InteractableObject){
-                ((InteractableObject)tempDO).keyPressed(e.getKeyCode());
-            }
+            tempDO.keyPressed(e.getKeyCode());
         }
     }
 
@@ -117,13 +121,11 @@ public class DrawingPanel extends JPanel implements ActionListener, KeyListener,
      * Weitergabe an Zeichnungsobjekte. Löschen des Keycodes aus den gerade gedrückten Tasten.
      */
     public void keyReleased(KeyEvent e){
-        if (currentlyPressedKeys.contains(e.getKeyCode()))currentlyPressedKeys.remove(new Integer(e.getKeyCode()));
+        if (currentlyPressedKeys.contains(e.getKeyCode())) currentlyPressedKeys.remove(e.getKeyCode());
         Iterator<DrawableObject> iterator = drawableObjects.iterator();
         while (iterator.hasNext()){
             DrawableObject tempDO = iterator.next();
-            if (tempDO instanceof InteractableObject){
-                ((InteractableObject)tempDO).keyReleased(e.getKeyCode());
-            }
+            tempDO.keyReleased(e.getKeyCode());
         }
 
     }
@@ -136,10 +138,12 @@ public class DrawingPanel extends JPanel implements ActionListener, KeyListener,
         return false;
     }
 
-    /**
-     * Unbenutzt bis auf Weiteres
-     */
     public void mousePressed(MouseEvent e) {
+        Iterator<DrawableObject> iterator = drawableObjects.iterator();
+        while (iterator.hasNext()){
+            DrawableObject tempDO = iterator.next();
+            tempDO.mousePressed(e);
+        }
     }
 
     /**
@@ -149,28 +153,54 @@ public class DrawingPanel extends JPanel implements ActionListener, KeyListener,
         Iterator<DrawableObject> iterator = drawableObjects.iterator();
         while (iterator.hasNext()){
             DrawableObject tempDO = iterator.next();
-            if (tempDO instanceof InteractableObject){
-                ((InteractableObject)tempDO).mouseReleased(e);
-            }
+            tempDO.mouseReleased(e);
         }
     }
 
-    /**
-     * Unbenutzt bis auf Weiteres
-     */
+    @Override
     public void mouseEntered(MouseEvent e) {
+        Iterator<DrawableObject> iterator = drawableObjects.iterator();
+        while (iterator.hasNext()){
+            DrawableObject tempDO = iterator.next();
+            tempDO.mouseEntered(e);
+        }
     }
 
-    /**
-     * Unbenutzt bis auf Weiteres
-     */
+    @Override
     public void mouseExited(MouseEvent e) {
+        Iterator<DrawableObject> iterator = drawableObjects.iterator();
+        while (iterator.hasNext()){
+            DrawableObject tempDO = iterator.next();
+            tempDO.mouseExited(e);
+        }
     }
 
-    /**
-     * Unbenutzt bis auf Weiteres
-     */
+    @Override
     public void mouseClicked(MouseEvent e) {
+        Iterator<DrawableObject> iterator = drawableObjects.iterator();
+        while (iterator.hasNext()){
+            DrawableObject tempDO = iterator.next();
+            tempDO.mouseClicked(e);
+        }
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        Iterator<DrawableObject> iterator = drawableObjects.iterator();
+        while (iterator.hasNext()) {
+            DrawableObject tempDO = iterator.next();
+            tempDO.mouseDragged(e);
+        }
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        Iterator<DrawableObject> iterator = drawableObjects.iterator();
+        while (iterator.hasNext()){
+            DrawableObject tempDO = iterator.next();
+            tempDO.mouseMoved(e);
+        }
     }
 
 }
+

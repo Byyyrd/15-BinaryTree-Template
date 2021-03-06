@@ -1,4 +1,4 @@
-package control;
+package Control;
 
 /**
  * In dieser Klasse werden globale, statische Einstellungen verwaltet.

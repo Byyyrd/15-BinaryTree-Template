@@ -56,7 +56,7 @@ public class BinaryTree<ContentType> {
 	}
 
 	/**
-	 * Wenn der Parameter pContent ungleich null ist, existiert nach dem Aufruf
+	 * Falls der Parameter pContent ungleich null ist, existiert nach dem Aufruf
 	 * des Konstruktors der Binaerbaum und hat pContent als Inhaltsobjekt und
 	 * zwei leere Teilbaeume. Falls der Parameter null ist, wird ein leerer
 	 * Binaerbaum erzeugt.
@@ -69,11 +69,11 @@ public class BinaryTree<ContentType> {
 	}
 
 	/**
-	 * Wenn der Parameter pContent ungleich null ist, wird ein Binaerbaum mit
+	 * Falls der Parameter pContent ungleich null ist, wird ein Binaerbaum mit
 	 * pContent als Inhalt und den beiden Teilbaeume pLeftTree und pRightTree
 	 * erzeugt. Sind pLeftTree oder pRightTree gleich null, wird der
 	 * entsprechende Teilbaum als leerer Binaerbaum eingefuegt. So kann es also
-	 * nie passieren, dass linke oder rechte Teilbaeume null sind. Wenn der
+	 * nie passieren, dass linke oder rechte Teilbaeume null sind. Falls der
 	 * Parameter pContent gleich null ist, wird ein leerer Binaerbaum erzeugt.
 	 * 
 	 * @param pContent
@@ -88,10 +88,10 @@ public class BinaryTree<ContentType> {
 	}
 
 	/**
-	 * Diese Anfrage liefert den Wahrheitswert true, wenn der Binaerbaum leer
+	 * Diese Anfrage liefert den Wahrheitswert true, falls der Binaerbaum leer
 	 * ist, sonst liefert sie den Wert false.
 	 * 
-	 * @return true, wenn der Binaerbaum leer ist, sonst false
+	 * @return true, falls der Binaerbaum leer ist, sonst false
 	 */
 	public boolean isEmpty() {
 		//TODO 01d
@@ -99,8 +99,8 @@ public class BinaryTree<ContentType> {
 	}
 
 	/**
-	 * Wenn pContent null ist, geschieht nichts. <br />
-	 * Ansonsten: Wenn der Binaerbaum leer ist, wird der Parameter pContent als
+	 * Falls pContent null ist, geschieht nichts. <br />
+	 * Ansonsten: Falls der Binaerbaum leer ist, wird der Parameter pContent als
 	 * Inhaltsobjekt sowie ein leerer linker und rechter Teilbaum eingefuegt.
 	 * Ist der Binaerbaum nicht leer, wird das Inhaltsobjekt durch pContent
 	 * ersetzt. Die Teilbaeume werden nicht geaendert.
@@ -113,10 +113,10 @@ public class BinaryTree<ContentType> {
 	}
 
 	/**
-	 * Diese Anfrage liefert das Inhaltsobjekt des Binaerbaums. Wenn der
+	 * Diese Anfrage liefert das Inhaltsobjekt des Binaerbaums. Falls der
 	 * Binaerbaum leer ist, wird null zurueckgegeben.
 	 * 
-	 * @return das Inhaltsobjekt der Wurzel vom Typ CT bzw. null, wenn
+	 * @return das Inhaltsobjekt der Wurzel vom Typ CT bzw. null, falls
 	 *         der Binaerbaum leer ist
 	 */
 	public ContentType getContent() {
@@ -125,7 +125,7 @@ public class BinaryTree<ContentType> {
 	}
 
 	/**
-	 * Falls der Parameter null ist, geschieht nichts. Wenn der Binaerbaum leer
+	 * Falls der Parameter null ist, geschieht nichts. Falls der Binaerbaum leer
 	 * ist, wird pTree nicht angehaengt. Andernfalls erhaelt der Binaerbaum den
 	 * uebergebenen BinaryTree als linken Teilbaum.
 	 * 
@@ -137,7 +137,7 @@ public class BinaryTree<ContentType> {
 	}
 
 	/**
-	 * Falls der Parameter null ist, geschieht nichts. Wenn der Binaerbaum leer
+	 * Falls der Parameter null ist, geschieht nichts. Falls der Binaerbaum leer
 	 * ist, wird pTree nicht angehaengt. Andernfalls erhaelt der Binaerbaum den
 	 * uebergebenen BinaryTree als rechten Teilbaum.
 	 * 
@@ -149,10 +149,10 @@ public class BinaryTree<ContentType> {
 	}
 
 	/**
-	 * Diese Anfrage liefert den linken Teilbaum des Binaerbaumes. Wenn der
+	 * Diese Anfrage liefert den linken Teilbaum des Binaerbaumes. Falls der
 	 * Binaerbaum leer ist, wird null zurueckgegeben.
 	 * 
-	 * @return linker Teilbaum vom Typ BinaryTree<CT> oder null, wenn
+	 * @return linker Teilbaum vom Typ BinaryTree<CT> oder null, falls
 	 * der aktuelle Binaerbaum leer ist
 	 */
 	public BinaryTree<ContentType> getLeftTree() {
@@ -161,10 +161,10 @@ public class BinaryTree<ContentType> {
 	}
 
 	/**
-	 * Diese Anfrage liefert den rechten Teilbaum des Binaerbaumes. Wenn der
+	 * Diese Anfrage liefert den rechten Teilbaum des Binaerbaumes. Falls der
 	 * Binaerbaum (this) leer ist, wird null zurueckgegeben.
 	 * 
-	 * @return rechter Teilbaum vom Typ BinaryTree<CT> oder null, wenn
+	 * @return rechter Teilbaum vom Typ BinaryTree<CT> oder null, falls
 	 * der aktuelle Binaerbaum (this) leer ist
 	 */
 	public BinaryTree<ContentType> getRightTree() {

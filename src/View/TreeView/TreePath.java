@@ -1,14 +1,12 @@
 package View.TreeView;
 
-import View.DrawableObject;
-import View.DrawingPanel;
-
-import java.awt.*;
+import View.DrawTool;
+import View.GraphicalObject;
 
 /**
  * Created by Jean-Pierre on 16.03.2017.
  */
-public class TreePath implements DrawableObject {
+public class TreePath extends GraphicalObject {
 
     //Attribute
     private double startX;
@@ -37,13 +35,13 @@ public class TreePath implements DrawableObject {
     }
 
     @Override
-    public void draw(DrawingPanel dp, Graphics2D g2d) {
+    public void draw(DrawTool drawTool) {
         if(green){
-            g2d.setColor(new Color(0,255,0));
+            drawTool.setCurrentColor(0,255,0,255);
         }else{
-            g2d.setColor(new Color(255,0,0));
+            drawTool.setCurrentColor(255,0,0,255);
         }
-        g2d.drawLine((int)(startX+radius) ,(int)(startY+2*radius) ,(int)(endX+radius) ,(int)(endY));
+        drawTool.drawLine((int)(startX+radius) ,(int)(startY+2*radius) ,(int)(endX+radius) ,(int)(endY));
     }
 
     @Override

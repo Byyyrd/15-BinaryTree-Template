@@ -1,14 +1,14 @@
 package View.TreeView;
 
-import View.DrawableObject;
-import View.DrawingPanel;
+import View.DrawTool;
+import View.GraphicalObject;
 
 import java.awt.*;
 
 /**
  * Created by Jean-Pierre on 16.03.2017.
  */
-public class TreeNode implements DrawableObject{
+public class TreeNode extends GraphicalObject {
 
     //Attribute
     private double x;
@@ -34,16 +34,16 @@ public class TreeNode implements DrawableObject{
     }
 
     @Override
-    public void draw(DrawingPanel dp, Graphics2D g2d) {
-        g2d.setFont(new Font("Arial", Font.PLAIN, 10));
+    public void draw(DrawTool drawTool) {
+        drawTool.formatText("Arial", Font.PLAIN, 10);
 
         if(green){
-            g2d.setColor(new Color(0,255,0));
+            drawTool.setCurrentColor(0,255,0, 255);
         }else{
-            g2d.setColor(new Color(255,0,0));
+            drawTool.setCurrentColor(255,0,0,255);
         }
-        g2d.drawOval((int)x, (int)y, (int)r*2, (int)r*2);
-        g2d.drawString(text, (int)x + (int)(0.75*r), (int)y + (int)(1.25*r));
+        drawTool.drawCircle((int)x, (int)y, (int)r*2);
+        drawTool.drawText((int)x, (int)y, text);
     }
 
     @Override

@@ -10,7 +10,7 @@ public class MainProgram {
 
     private static final int windowWidth = 1200;
     private static final int windowHeight = 1000;
-    private static final String programTitle = "Projektvorlage für IntelliJ";
+    private static final String programTitle = "Projekt BinaryTree";
 
     public static void main (String[] args){
         EventQueue.invokeLater(
