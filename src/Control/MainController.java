@@ -83,4 +83,14 @@ public class MainController {
         //TODO 04: Nachdem wir geklärt haben, was eine Traversierung ist, muss diese Methode noch vervollständigt werden. Sollte ein Kinderspiel sein.
         return "Traverse? Wat dat denn?";
     }
+	
+    /**
+     * Interne Übungsmethode zur Traversierung.
+     * @param tree Der zu traversierende Binärbaum.
+     * @return Die Anzahl der Knoten in diesem Baum
+     */
+    private int countNodes(BinaryTree tree){
+        //TODO 05: Übungsmethode
+	return 0;
+    }
 }
