@@ -40,8 +40,8 @@ public class MainController {
         //Der linke und rechte Knoten in Tiefe 1 sind jeweils ein Viertel der Breite des Panels entfernt: spaceToTheSide = panel.getWidth()/4
         showTree(binaryTree, panel, panel.getWidth()/2, 50, panel.getWidth()/4);
 		
-		//Aufruf fordert das Panel zur Aktualisierung auf.
-		panel.repaint();
+	//Aufruf fordert das Panel zur Aktualisierung auf.
+	panel.repaint();
     }
 
     /**
