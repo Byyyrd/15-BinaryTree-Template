@@ -3,9 +3,10 @@ package Control;
 import Model.BinaryTree;
 import View.DrawingPanel;
 import View.TreeView.TreeNode;
+import View.TreeView.TreePath;
 
 /**
- * Created by Jean-Pierre on 12.01.2017.
+ * Created by Jean-Pierre on 12.01.2017. Minimal angepasst von RKR für den LK 2023-2025 :)
  */
 public class MainController {
 
@@ -20,7 +21,7 @@ public class MainController {
      * Zur Präsentation des Programms wird der Morsecode im Baum dargestellt.
      */
     private void createMorseTree(){
-        //TODO 02: Vervollständige den Morsebaum. Such bei google nach "morsecode as tree" als Vorlage. Das hilft, die Übersicht zu wahren.
+        //TODO 02: Vervollständige den Morsebaum. Such bei google Morsebaum zur Unterstützung
         BinaryTree<String> left = new BinaryTree<>("E");
         BinaryTree<String> right = new BinaryTree<>("T");
 
@@ -40,8 +41,8 @@ public class MainController {
         //Der linke und rechte Knoten in Tiefe 1 sind jeweils ein Viertel der Breite des Panels entfernt: spaceToTheSide = panel.getWidth()/4
         showTree(binaryTree, panel, panel.getWidth()/2, 50, panel.getWidth()/4);
 		
-	//Aufruf fordert das Panel zur Aktualisierung auf.
-	panel.repaint();
+	    //Aufruf fordert das Panel zur Aktualisierung auf.
+	    panel.repaint();
     }
 
     /**
@@ -55,42 +56,17 @@ public class MainController {
      * @param spaceToTheSide Gibt an, wie weit horizontal entfernt die folgenden Bäume gezeichnet werden soll.
      */
     private void showTree(BinaryTree tree, DrawingPanel panel, double startX, double startY, double spaceToTheSide) {
-        //TODO 03: Vervollständige diese Methode. Aktuell wird nur der Wurzelknoten gezeichnet.
         if (!tree.isEmpty()) {
             TreeNode node = new TreeNode(startX, startY, 10, tree.getContent().toString(), false);
             panel.addObject(node);
         }
-		
-		
-		
-    }
-
-    /**
-     * Es wird das Ergebnis einer Traversierung bestimmt.
-     * Ruft dazu eine interne Hilfsmethode auf.
-     * @return Das Ergebnis der Traversierung als Zeichenkette.
-     */
-    public String traverse(){
-        return traverse(binaryTree);
-    }
-
-    /**
-     * Interne hilfsmethode zur Traversierung.
-     * @param tree Der zu traversierende Binärbaum.
-     * @return Das Ergebnis der Traversierung als Zeichenkette.
-     */
-    private String traverse(BinaryTree tree){
-        //TODO 04: Nachdem wir geklärt haben, was eine Traversierung ist, muss diese Methode noch vervollständigt werden. Sollte ein Kinderspiel sein.
-        return "Traverse? Wat dat denn?";
-    }
-	
-    /**
-     * Interne Übungsmethode zur Traversierung.
-     * @param tree Der zu traversierende Binärbaum.
-     * @return Die Anzahl der Knoten in diesem Baum
-     */
-    private int countNodes(BinaryTree tree){
-        //TODO 05: Übungsmethode
-	return 0;
+        //bearbeite linken Teilbaum, falls dieser nicht leer ist
+        if(!tree.getLeftTree().isEmpty()){
+            TreePath path = new TreePath(startX,startY+10*2, startX-(spaceToTheSide/1.5),startY+60-10*2,0,false);
+            panel.addObject(path);
+            showTree(tree.getLeftTree(), panel, startX - (spaceToTheSide / 1.5), startY + 60, spaceToTheSide / 2);
+        }
+        //bearbeite rechten Teilbaum, falls dieser nicht leer ist
+        //TODO 03: Lasse auch den rechten Teilbaum zeichnen
     }
 }

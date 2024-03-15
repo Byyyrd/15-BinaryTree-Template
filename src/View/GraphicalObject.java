@@ -1,6 +1,6 @@
 package View;
 
-import Control.Config;
+//import Config;
 
 import javax.imageio.ImageIO;
 import java.awt.event.KeyEvent;
