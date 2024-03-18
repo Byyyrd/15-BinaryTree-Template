@@ -36,7 +36,7 @@ public class InteractionPanelHandler {
         traverseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //showText(mainController.traverse());
+                showText(mainController.traverse());
             }
         });
     }

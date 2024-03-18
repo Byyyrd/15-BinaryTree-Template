@@ -5,6 +5,10 @@ import View.DrawingPanel;
 import View.TreeView.TreeNode;
 import View.TreeView.TreePath;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+
 /**
  * Created by Jean-Pierre on 12.01.2017. Minimal angepasst von RKR für den LK 2023-2025 :)
  */
@@ -15,6 +19,7 @@ public class MainController {
     public MainController(){
         binaryTree = new BinaryTree<>(""); // Ein Baum ohne Wurzel-Inhalt ist auf dauer ein leerer Baum - es lassen sich laut Dokumentation nichtmal Bäume anhängen. Also wird die Wurzel gefüllt.
         createMorseTree();
+        System.out.println(readMorseCode(binaryTree,"..- --. ..-"));
     }
 
     /**
@@ -103,5 +108,56 @@ public class MainController {
             panel.addObject(path);
             showTree(tree.getRightTree(), panel, startX + (spaceToTheSide / 1.5), startY + 60, spaceToTheSide / 2);
         }
+    }
+
+
+    /**
+     * Es wird das Ergebnis einer Traversierung bestimmt.
+     * Ruft dazu eine interne Hilfsmethode auf.
+     * @return Das Ergebnis der Traversierung als Zeichenkette.
+     */
+    public String traverse(){
+        return traverse(binaryTree);
+    }
+
+    /**
+     * Interne hilfsmethode zur Traversierung.
+     * @param tree Der zu traversierende Binärbaum.
+     * @return Das Ergebnis der Traversierung als Zeichenkette.
+     */
+    private String traverse(BinaryTree tree){
+        //TODO 04: Nachdem wir geklärt haben, was eine Traversierung ist, muss diese Methode noch vervollständigt werden. Sollte ein Kinderspiel sein.
+        if(tree.isEmpty())
+            return "";
+        return tree.getContent() + traverse(tree.getLeftTree()) + traverse(tree.getRightTree());
+    }
+
+    /**
+     * Interne Übungsmethode zur Traversierung.
+     * @param tree Der zu traversierende Binärbaum.
+     * @return Die Anzahl der Knoten in diesem Baum
+     */
+    private int countNodes(BinaryTree tree){
+        //TODO 05: Übungsmethode
+        return traverse(tree).length();
+    }
+
+    private String readMorseCode(BinaryTree<String> binaryTree,String code){
+        StringBuilder output = new StringBuilder();
+        String[] codes = code.split(" ");
+        for (String symbols : codes) {
+            BinaryTree<String> tree = binaryTree;
+            output.append(tree.getContent());
+            char[] chars = symbols.toCharArray();
+            for (char symbol : chars) {
+                if(symbol == '.'){
+                    tree = tree.getLeftTree();
+                }else if (symbol == '-'){
+                    tree = tree.getRightTree();
+                }
+            }
+            output.append(tree.getContent());
+        }
+        return output.toString();
     }
 }
