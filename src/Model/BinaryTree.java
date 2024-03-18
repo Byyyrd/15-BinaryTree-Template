@@ -53,7 +53,7 @@ public class BinaryTree<ContentType> {
 	 */
 	public BinaryTree() {
 		//TODO 01a
-		node = new BTNode<>(null);
+		node = null;
 	}
 
 	/**
@@ -67,7 +67,12 @@ public class BinaryTree<ContentType> {
 	 */
 	public BinaryTree(ContentType pContent) {
 		//TODO 01b
-		node = new BTNode<>(pContent);
+		if(pContent == null){
+			node = null;
+		}else{
+			node = new BTNode<>(pContent);
+		}
+
 
 	}
 
@@ -98,9 +103,7 @@ public class BinaryTree<ContentType> {
 			}
 
 		}else{
-			node = new BTNode<>(null);
-			setLeftTree(null);
-			setRightTree(null);
+			node = null;
 		}
 
 	}
@@ -113,8 +116,7 @@ public class BinaryTree<ContentType> {
 	 */
 	public boolean isEmpty() {
 		//TODO 01d
-
-		return false;
+		return node == null;
 	}
 
 	/**
@@ -129,6 +131,13 @@ public class BinaryTree<ContentType> {
 	 */
 	public void setContent(ContentType pContent) {
 		//TODO 01e
+		if(pContent != null){
+			if(node == null){
+				node = new BTNode<>(pContent);
+			}else{
+				node.content = pContent;
+			}
+		}
 	}
 
 	/**
@@ -140,7 +149,9 @@ public class BinaryTree<ContentType> {
 	 */
 	public ContentType getContent() {
 		//TODO 01f
-		return null;
+		if(node == null)
+			return null;
+		return node.content;
 	}
 
 	/**
@@ -153,6 +164,8 @@ public class BinaryTree<ContentType> {
 	 */
 	public void setLeftTree(BinaryTree<ContentType> pTree) {
 		//TODO 01g
+		if(pTree != null && !isEmpty())
+			node.left = pTree;
 	}
 
 	/**
@@ -165,6 +178,8 @@ public class BinaryTree<ContentType> {
 	 */
 	public void setRightTree(BinaryTree<ContentType> pTree) {
 		//TODO 01h
+		if(pTree != null && !isEmpty())
+			node.right = pTree;
 	}
 
 	/**
@@ -176,7 +191,9 @@ public class BinaryTree<ContentType> {
 	 */
 	public BinaryTree<ContentType> getLeftTree() {
 		//TODO 01i
-		return null;
+		if(node == null)
+			return null;
+		return node.left;
 	}
 
 	/**
@@ -188,7 +205,10 @@ public class BinaryTree<ContentType> {
 	 */
 	public BinaryTree<ContentType> getRightTree() {
 		//TODO 01j
-		return null;
+		if (node == null) {
+			return null;
+		}
+		return node.right;
 	}
 
 }
